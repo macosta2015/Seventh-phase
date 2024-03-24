@@ -122,11 +122,15 @@ require('dotenv').config();
             }
         });
 
-        await newPage.click('div[data-id="Dg4JdGx6jlZTm4XD"]', { button: 'right' });
-        console.log('Right-clicked successfully.');
 
+
+
+        //RIGHT CLICK OPTION
+        console.log('Right-clicked started.');
         await new Promise(resolve => setTimeout(resolve, 10000));
         console.log('Waited for 10 seconds.');
+        await newPage.click('div[data-id="Dg4JdGx6jlZTm4XD"]', { button: 'right' });
+        console.log('Right-clicked successfully.');
 
         await newPage.evaluate(() => {
             window.scrollTo(0, document.body.scrollHeight);
@@ -141,6 +145,13 @@ require('dotenv').config();
             const menuItems = document.querySelectorAll('.context-menu-item-span');
             return Array.from(menuItems).map(item => item.textContent.trim());
         });
+        console.log('Right-clicked ended.');
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        console.log('Waited for 10 seconds.');
+
+
+
+
 
         // RIGHT CLICK 
         //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
@@ -182,6 +193,13 @@ require('dotenv').config();
         console.log('Waiting 10 seconds.');
         await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
 
+
+
+
+
+
+
+
         //SELECT SKETCH RIGHT CLICK OPTIONS TO UNCLICK
         console.log('RIGHT CLICK OPTIONS:');
         await newPage.evaluate(() => {
@@ -194,8 +212,62 @@ require('dotenv').config();
             }
         });
 
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        console.log('Waited for 2 seconds.');
+        //SELECT SKETCH RIGHT CLICK OPTIONS TO PASTE
+        console.log('RIGHT CLICK OPTIONS:');
+        await newPage.evaluate(() => {
+            const thirdButton = document.querySelectorAll('.os-list-item-name')[6];
+            thirdButton.click();
+            if (thirdButton) {
+                thirdButton.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            } else {
+                console.error('Third button not found.');
+            }
+        });
+
+
+
+
+
+        // RIGHT CLICK 
+        //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
+        const desiredOption2 = 'Paste into sketch'; //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
+        console.log('Desired rename option:', desiredOption2);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        console.log('Searching for index of desired option...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        let desiredOptionIndex2 = editOptions.indexOf(desiredOption2);
+        console.log('Index of desired  option:', desiredOptionIndex2);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        if (desiredOptionIndex2 !== -1) {
+            console.log('Desired rename option found.');
+            await new Promise(resolve => setTimeout(resolve, 5000));
+
+            console.log('Evaluating option element... ', desiredOption2);
+            const renameOptionElement = await newPage.evaluateHandle((index) => {
+                const menuItems = document.querySelectorAll('.context-menu-item-span');
+                return menuItems[index];
+            }, desiredOptionIndex2);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+
+            if (renameOptionElement) {
+                console.log('Option element found.', desiredOption2);
+                await new Promise(resolve => setTimeout(resolve, 5000));
+                await renameOptionElement.click();
+                console.log(`Clicked on ${desiredOption2} option element.`);
+                await new Promise(resolve => setTimeout(resolve, 5000));
+            } else {
+                console.error(`${desiredOption2} option element not found.`);
+                await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+        } else {
+            console.error(`${desiredOption2} option not found.`);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
+        console.log('Waiting 10 seconds.');
+        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
+
 
 
 
