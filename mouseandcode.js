@@ -93,11 +93,6 @@ require('dotenv').config();
 
 
 
-
-
-
-
-
         // COPY SKETCH AND PASTING IT INTO ANOTHER SKETCH
         //SELECT SKETCH RIGHT CLICK OPTIONS  
         console.log('RIGHT CLICK OPTIONS:');
@@ -124,44 +119,144 @@ require('dotenv').config();
 
 
 
+        async function performRightClickOptionByIndex(newPage, selector, index) {
+            console.log('Right-clicked started.');
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            console.log('Waited for 5 seconds.');
 
-        //RIGHT CLICK OPTION
-        console.log('Right-clicked started.');
-        await new Promise(resolve => setTimeout(resolve, 10000));
-        console.log('Waited for 10 seconds.');
-        await newPage.click('div[data-id="Dg4JdGx6jlZTm4XD"]', { button: 'right' });
-        console.log('Right-clicked successfully.');
+            // Click on the element by index
+            const elements = await newPage.$$(selector);
+            if (index >= 0 && index < elements.length) {
+                await elements[index].click({ button: 'right' });
+                console.log(`Clicked on element at index ${index}.`);
+            } else {
+                throw new Error('Index out of range or no elements found with the given selector.');
+            }
 
-        await newPage.evaluate(() => {
-            window.scrollTo(0, document.body.scrollHeight);
-        });
+            console.log('Right-clicked successfully.');
 
-        await newPage.waitForSelector('.context-menu-item-span', { visible: true });
+            // Here you can wait for a specific context-menu-item-span element
+            const menuItemSelector = '.context-menu-item-span';
+            await newPage.waitForSelector(`${menuItemSelector}:nth-child(${index + 1})`, { visible: true });
+            console.log(`Waited for context menu item at index ${index} to appear.`);
 
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        console.log('Waited for 5 seconds.');
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            console.log('Waited for 5 seconds.');
 
-        const editOptions = await newPage.evaluate(() => {
-            const menuItems = document.querySelectorAll('.context-menu-item-span');
-            return Array.from(menuItems).map(item => item.textContent.trim());
-        });
-        console.log('Right-clicked ended.');
-        await new Promise(resolve => setTimeout(resolve, 10000));
-        console.log('Waited for 10 seconds.');
+            const editOptions1 = await newPage.evaluate(() => {
+                const menuItems = document.querySelectorAll('.context-menu-item-span');
+                return Array.from(menuItems).map(item => item.textContent.trim());
+            });
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            console.log('Retrieved edit options.');
+
+            console.log('Right-clicked ended.');
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            console.log('Waited for 5 seconds.');
+
+            return editOptions1;
+        }
 
 
 
 
 
-        // RIGHT CLICK 
-        //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
+
+
+
+        // Example usage:
+        const selector = 'div[data-id="Dg4JdGx6jlZTm4XD"]';
+        const index = 0; // Replace with the desired index
+        const editOptions1 = await performRightClickOptionByIndex(newPage, selector, index);
+        console.log(editOptions1);
+
+
+
+
+
+
+
+
+
+        // //TEST
+        // async function performRightClickOption(newPage) {
+        //     console.log('Right-clicked started.');
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Waited for 5 seconds.');
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Waited for 5 seconds.');
+        //     await newPage.click('div[data-id="Dg4JdGx6jlZTm4XD"]', { button: 'right' });
+        //     console.log('WHERE DID WE CLICK???')
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Right-clicked successfully.');
+
+        //     await newPage.evaluate(() => {
+        //         window.scrollTo(0, document.body.scrollHeight);
+        //     });
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Scrolled to bottom of the page.');
+
+        //     await newPage.waitForSelector('.context-menu-item-span', { visible: true });
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Waiting for context menu items to appear.');
+
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Waited for 5 seconds.');
+
+        //     const editOptions1 = await newPage.evaluate(() => {
+        //         const menuItems = document.querySelectorAll('.context-menu-item-span');
+        //         return Array.from(menuItems).map(item => item.textContent.trim());
+        //     });
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Retrieved edit options.');
+
+        //     console.log('Right-clicked ended.');
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //     console.log('Waited for 5 seconds.');
+
+        //     return editOptions1;
+        // }
+
+        // // Example usage:
+        // const editOptions1 = await performRightClickOption(newPage);
+        // console.log(editOptions1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         const desiredOption = 'Copy sketch'; //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
         console.log('Desired rename option:', desiredOption);
         await new Promise(resolve => setTimeout(resolve, 5000));
 
         console.log('Searching for index of desired option...');
         await new Promise(resolve => setTimeout(resolve, 5000));
-        const desiredOptionIndex = editOptions.indexOf(desiredOption);
+        const desiredOptionIndex = editOptions1.indexOf(desiredOption);
         console.log('Index of desired  option:', desiredOptionIndex);
         await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -227,6 +322,23 @@ require('dotenv').config();
 
 
 
+        //CALLING RIGHT CLICK FUNCTION
+        // Example usage:
+        // const editOptions2 = await performRightClickOption(newPage);
+        // console.log(editOptions2);
+        // Example usage:
+        // Example usage:
+        const selector1 = 'div[data-id="Dg4JdGx6jlZTm4XD"]';
+        const index1 = 1; // Replace with the desired index
+        const editOptions2 = await performRightClickOptionByIndex(newPage, selector1, index1);
+        console.log(editOptions2);
+
+
+
+
+
+
+
 
         // RIGHT CLICK 
         //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
@@ -267,12 +379,6 @@ require('dotenv').config();
         }
         console.log('Waiting 10 seconds.');
         await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
-
-
-
-
-
-
 
 
 
