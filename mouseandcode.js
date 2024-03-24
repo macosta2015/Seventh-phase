@@ -86,8 +86,7 @@ require('dotenv').config();
         console.log('Waiting 10 seconds.');
         await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
         await newPage.click('div.ns-dialog-button-ok.button-ok');
-        console.log('Waiting 10 seconds.');
-        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
+
 
 
 
@@ -100,11 +99,10 @@ require('dotenv').config();
 
 
         // COPY SKETCH AND PASTING IT INTO ANOTHER SKETCH
-
-        //RIGHT CLICK OPTIONS  
+        //SELECT SKETCH RIGHT CLICK OPTIONS  
         console.log('RIGHT CLICK OPTIONS:');
         await newPage.evaluate(() => {
-            const thirdButton = document.querySelectorAll('.os-list-item-name')[2];
+            const thirdButton = document.querySelectorAll('.os-list-item-name')[3]; //What is the 2?
             if (thirdButton) {
                 thirdButton.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
             } else {
@@ -145,8 +143,8 @@ require('dotenv').config();
         });
 
         // RIGHT CLICK 
-        //TYPE WHICH TEXT YOU WANT TO CHOSE!
-        const desiredOption = 'Copy sketch'; // const desiredOption = 'Rename';
+        //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
+        const desiredOption = 'Copy sketch'; //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
         console.log('Desired rename option:', desiredOption);
         await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -183,6 +181,21 @@ require('dotenv').config();
         }
         console.log('Waiting 10 seconds.');
         await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
+
+        //SELECT SKETCH RIGHT CLICK OPTIONS TO UNCLICK
+        console.log('RIGHT CLICK OPTIONS:');
+        await newPage.evaluate(() => {
+            const thirdButton = document.querySelectorAll('.os-list-item-name')[5];
+            thirdButton.click();
+            if (thirdButton) {
+                thirdButton.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            } else {
+                console.error('Third button not found.');
+            }
+        });
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log('Waited for 2 seconds.');
 
 
 
