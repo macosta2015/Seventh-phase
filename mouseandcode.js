@@ -413,50 +413,6 @@ require('dotenv').config();
         // console.log('Setting desired rename option...');
         // await new Promise(resolve => setTimeout(resolve, 5000));
 
-        // RIGHT CLICK 
-        //TYPE WHICH TEXT YOU WANT TO CHOSE!
-        const desiredCopysketch = 'Copysketch';
-        console.log('Desired rename option:', desiredCopysketch);
-        await new Promise(resolve => setTimeout(resolve, 5000));
-
-        console.log('Searching for index of desired rename option...');
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        const desiredCopysketchIndex = editOptions.indexOf(desiredCopysketch);
-        console.log('Index of desired rename option:', desiredCopysketchIndex);
-        await new Promise(resolve => setTimeout(resolve, 5000));
-
-        if (desiredCopysketchIndex !== -1) {
-            console.log('Desired rename option found.');
-            await new Promise(resolve => setTimeout(resolve, 5000));
-
-            console.log('Evaluating rename option element...');
-            const renameOptionElement = await newPage.evaluateHandle((index) => {
-                const menuItems = document.querySelectorAll('.context-menu-item-span');
-                return menuItems[index];
-            }, desiredCopysketchIndex);
-            await new Promise(resolve => setTimeout(resolve, 5000));
-
-            if (renameOptionElement) {
-                console.log('Rename option element found.');
-                await new Promise(resolve => setTimeout(resolve, 5000));
-
-                console.log('Clicking on rename option element...');
-                await renameOptionElement.click();
-                console.log('Clicked on rename option element.');
-                await new Promise(resolve => setTimeout(resolve, 5000));
-            } else {
-                console.error(`${desiredCopysketch} option element not found.`);
-                await new Promise(resolve => setTimeout(resolve, 5000));
-            }
-        } else {
-            console.error(`${desiredCopysketch} option not found.`);
-            await new Promise(resolve => setTimeout(resolve, 5000));
-        }
-        console.log('Waiting 10 seconds.');
-        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
-
-
-
 
 
 
