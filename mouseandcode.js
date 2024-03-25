@@ -119,31 +119,34 @@ require('dotenv').config();
 
 
 
-        async function performRightClickOptionByIndex(newPage, selector, index) {
+
+
+
+        async function performRightClickOptionByTitle(newPage, selector, title) {
             console.log('Right-clicked started.');
             await new Promise(resolve => setTimeout(resolve, 5000));
             console.log('Waited for 5 seconds.');
 
-            // Click on the element by index
-            const elements = await newPage.$$(selector);
-            if (index >= 0 && index < elements.length) {
-                await elements[index].click({ button: 'right' });
-                console.log(`Clicked on element at index ${index}.`);
+            // Click on the element with the specified title
+            const elements = await newPage.$$(`${selector}[data-bs-original-title="${title}"]`);
+            if (elements.length > 0) {
+                await elements[0].click({ button: 'right' });
+                console.log(`Clicked on element with title "${title}".`);
             } else {
-                throw new Error('Index out of range or no elements found with the given selector.');
+                throw new Error(`No element found with title "${title}" using selector "${selector}".`);
             }
 
             console.log('Right-clicked successfully.');
 
             // Here you can wait for a specific context-menu-item-span element
             const menuItemSelector = '.context-menu-item-span';
-            await newPage.waitForSelector(`${menuItemSelector}:nth-child(${index + 1})`, { visible: true });
-            console.log(`Waited for context menu item at index ${index} to appear.`);
+            await newPage.waitForSelector(menuItemSelector, { visible: true });
+            console.log('Waited for context menu item to appear.');
 
             await new Promise(resolve => setTimeout(resolve, 5000));
             console.log('Waited for 5 seconds.');
 
-            const editOptions1 = await newPage.evaluate(() => {
+            const editOptions3 = await newPage.evaluate(() => {
                 const menuItems = document.querySelectorAll('.context-menu-item-span');
                 return Array.from(menuItems).map(item => item.textContent.trim());
             });
@@ -154,16 +157,17 @@ require('dotenv').config();
             await new Promise(resolve => setTimeout(resolve, 5000));
             console.log('Waited for 5 seconds.');
 
-            return editOptions1;
+            return editOptions3;
         }
 
+
+
+
         // Example usage:
-        const selector = 'div[data-id="Dg4JdGx6jlZTm4XD"]';
-        const index = 0; // Replace with the desired index
-        const editOptions1 = await performRightClickOptionByIndex(newPage, selector, index);
-        console.log(editOptions1);
-
-
+        const selector = 'div[data-id="Dg4JdGx6jlZTm4XD"]'; // Replace with the appropriate selector
+        const title = 'First Sketch'; // Replace with the desired title
+        const editOptions3 = await performRightClickOptionByTitle(newPage, selector, title);
+        console.log(editOptions3);
 
 
 
@@ -216,40 +220,13 @@ require('dotenv').config();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const desiredOption = 'Copy sketch'; //TYPE WHICH EDIT OPTION YOU WANT TO CHOSE
         console.log('Desired rename option:', desiredOption);
         await new Promise(resolve => setTimeout(resolve, 5000));
 
         console.log('Searching for index of desired option...');
         await new Promise(resolve => setTimeout(resolve, 5000));
-        const desiredOptionIndex = editOptions1.indexOf(desiredOption);
+        const desiredOptionIndex = editOptions3.indexOf(desiredOption);
         console.log('Index of desired  option:', desiredOptionIndex);
         await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -287,7 +264,6 @@ require('dotenv').config();
 
 
 
-
         //SELECT SKETCH RIGHT CLICK OPTIONS TO UNCLICK
         console.log('RIGHT CLICK OPTIONS:');
         await newPage.evaluate(() => {
@@ -315,16 +291,13 @@ require('dotenv').config();
 
 
 
-        //CALLING RIGHT CLICK FUNCTION
         // Example usage:
-        // const editOptions2 = await performRightClickOption(newPage);
-        // console.log(editOptions2);
-        // Example usage:
-        // Example usage:
-        const selector1 = 'div[data-id="Dg4JdGx6jlZTm4XD"]';
-        const index1 = 1; // Replace with the desired index
-        const editOptions2 = await performRightClickOptionByIndex(newPage, selector1, index1);
-        console.log(editOptions2);
+        const selector1 = 'div[data-id="XgFZbXC58Zl90SMu"]'; // Selector targeting the element with data-id="XgFZbXC58Zl90SMu"
+        const title1 = 'Sketch 2'; // Title of the element to click
+        const editOptions1 = await performRightClickOptionByTitle(newPage, selector1, title1);
+        console.log(editOptions1);
+
+
 
 
 
@@ -341,7 +314,7 @@ require('dotenv').config();
 
         console.log('Searching for index of desired option...');
         await new Promise(resolve => setTimeout(resolve, 5000));
-        let desiredOptionIndex2 = editOptions.indexOf(desiredOption2);
+        let desiredOptionIndex2 = editOptions1.indexOf(desiredOption2);
         console.log('Index of desired  option:', desiredOptionIndex2);
         await new Promise(resolve => setTimeout(resolve, 5000));
 
