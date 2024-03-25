@@ -157,13 +157,6 @@ require('dotenv').config();
             return editOptions1;
         }
 
-
-
-
-
-
-
-
         // Example usage:
         const selector = 'div[data-id="Dg4JdGx6jlZTm4XD"]';
         const index = 0; // Replace with the desired index
